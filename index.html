@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan - Edu Fair & Career Day 2026</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="container">
+        <!-- Header & Personalisasi Tamu -->
+        <header class="card header-card">
+            <span class="badge" id="guest-category">Tamu Kehormatan</span>
+            <p class="subtitle">UNDANGAN RESMI</p>
+            <h1>Edu Fair & Career Day 2026</h1>
+            <p class="theme">"Menjembatani Masa Depan, Meraih Peluang Tanpa Batas"</p>
+
+            <div class="guest-box">
+                <p>Kepada Yth.</p>
+                <h2 id="guest-name">Bapak/Ibu Perwakilan Tamu</h2>
+                <p id="guest-institution" class="institution">Instansi / Perusahaan Mitra</p>
+            </div>
+        </header>
+
+        <!-- Detail Waktu & Tempat -->
+        <section class="card">
+            <h3>📅 Detail Pelaksanaan</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>Hari / Tanggal:</strong>
+                    <span>Sabtu, 28 November 2026</span>
+                </div>
+                <div class="info-item">
+                    <strong>Waktu:</strong>
+                    <span>08.00 – 15.00 WIB</span>
+                </div>
+                <div class="info-item">
+                    <strong>Lokasi:</strong>
+                    <span>Aula Utama & Lapangan SMK Negeri</span>
+                </div>
+            </div>
+
+            <!-- Google Maps Embed -->
+            <div class="map-container">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.744101122026!2d106.73771747499096!3d-6.297319693691808!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f01e1c86699b%3A0x6003a2818b2a82e0!2sTangerang%20Selatan!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
+                    width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy">
+                </iframe>
+            </div>
+        </section>
+
+        <!-- Form Konfirmasi Kehadiran (RSVP) -->
+        <section class="card">
+            <h3>📝 Konfirmasi Kehadiran (RSVP)</h3>
+            <p class="desc">Mohon kesediaannya untuk mengonfirmasi kehadiran Anda pada acara kami.</p>
+
+            <form id="rsvp-form">
+                <div class="form-group">
+                    <label for="rsvp-nama">Nama Lengkap & Gelar</label>
+                    <input type="text" id="rsvp-nama" required placeholder="Masukkan nama Anda">
+                </div>
+
+                <div class="form-group">
+                    <label for="rsvp-instansi">Asal Instansi / Angkatan</label>
+                    <input type="text" id="rsvp-instansi" required placeholder="Masukkan nama instansi">
+                </div>
+
+                <div class="form-group">
+                    <label for="rsvp-status">Status Kehadiran</label>
+                    <select id="rsvp-status" required>
+                        <option value="Hadir">Ya, Saya Akan Hadir</option>
+                        <option value="Berhalangan">Maaf, Berhalangan Hadir</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="rsvp-pesan">Pesan / Ucapan (Opsional)</label>
+                    <textarea id="rsvp-pesan" rows="3" placeholder="Tuliskan pesan singkat..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-primary">Kirim Konfirmasi</button>
+            </form>
+
+            <div id="rsvp-feedback" class="feedback hidden"></div>
+        </section>
+
+        <footer>
+            <p>© 2026 Panitia Edu Fair & Career Day - XI RPL 1</p>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

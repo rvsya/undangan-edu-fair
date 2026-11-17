@@ -113,9 +113,8 @@
 
         <div class="controls">
             <div class="control-group">
-                <label for="base-url">URL Dasar Halaman Undangan (Ganti dengan link Vercel jika sudah
-                    di-deploy):</label>
-                <input type="text" id="base-url" value="">
+                <label for="base-url">URL Dasar Halaman Undangan:</label>
+                <input type="text" id="base-url" value="https://rvsya.github.io/undangan-edu-fair/">
             </div>
             <div class="control-group">
                 <label for="csv-file">Pilih File CSV (data-tamu.csv):</label>
@@ -146,10 +145,10 @@
     </div>
 
     <script>
-        // Otomatis deteksi URL lokal/hosting saat ini untuk index.html
+        // Default URL halaman undangan di GitHub Pages
+        const DEFAULT_URL = 'https://rvsya.github.io/undangan-edu-fair/';
         const baseUrlInput = document.getElementById('base-url');
-        const currentPath = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
-        baseUrlInput.value = currentPath + '/index.html';
+        baseUrlInput.value = DEFAULT_URL;
 
         let parsedData = [];
 
@@ -176,12 +175,14 @@
         // Render tabel dan tombol WA
         function renderTable() {
             const tbody = document.getElementById('guest-table-body');
-            const baseUrl = baseUrlInput.value.trim();
+            let baseUrl = baseUrlInput.value.trim() || DEFAULT_URL;
             tbody.innerHTML = '';
 
             parsedData.forEach(tamu => {
+                // Pastikan separator (? atau &) sesuai kondisi baseUrl
+                const separator = baseUrl.includes('?') ? '&' : '?';
                 // Buat URL personalisasi dengan encodeURIComponent agar spasi & karakter khusus aman
-                const personalLink = `${baseUrl}?to=${encodeURIComponent(tamu.nama)}&instansi=${encodeURIComponent(tamu.instansi)}&kategori=${encodeURIComponent(tamu.kategori)}`;
+                const personalLink = `${baseUrl}${separator}to=${encodeURIComponent(tamu.nama)}&instansi=${encodeURIComponent(tamu.instansi)}&kategori=${encodeURIComponent(tamu.kategori)}`;
 
                 // Template pesan WhatsApp
                 const pesan = `Yth. *${tamu.nama}* (${tamu.instansi}),\n\nKami mengundang Bapak/Ibu untuk hadir dalam acara *Edu Fair & Career Day 2026*.\n\nInformasi lengkap & konfirmasi kehadiran (RSVP) dapat diakses melalui tautan undangan digital berikut:\n${personalLink}\n\nTerima kasih atas perhatian dan kehadirannya.`;

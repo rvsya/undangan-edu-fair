@@ -1,47 +1,108 @@
-// 3. Penanganan Submit Form RSVP ke Google Sheets
-const rsvpForm = document.getElementById('rsvp-form');
-const feedbackBox = document.getElementById('rsvp-feedback');
+const SUPABASE_URL = 'NEXT_PUBLIC_SUPABASE_URL=https://bxhbtxmmqmvozsjonofh.supabase.co';
+const SUPABASE_ANON_KEY = 'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_XRx4ZnLU1dkv45b88NJWCA_8zqRZlVI';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// PASTE URL WEB APP GOOGLE APPS SCRIPT KAMU DI SINI:
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxfCUYnIhtxY0_nyoJCEnEB0Qo84d9gw2kN0BQCutC-p4tJkrtP-mScMRFye7r073V-0Q/exec';
+function getQueryParams() {
+    const params = new URLSearchParams(window.location.search);
+    return {
+        to: params.get('to') || 'Bapak/Ibu Tamu Undangan',
+        instansi: params.get('instansi') || 'Mitra Edu Fair & Career Day',
+        kategori: params.get('kategori') || 'Tamu Kehormatan'
+    };
+}
 
-rsvpForm.addEventListener('submit', (e) => {
-    e.preventDefault();
+document.addEventListener('DOMContentLoaded', () => {
+    const data = getQueryParams();
 
-    const nama = document.getElementById('rsvp-nama').value;
-    const instansi = document.getElementById('rsvp-instansi').value;
-    const status = document.getElementById('rsvp-status').value;
-    const pesan = document.getElementById('rsvp-pesan').value;
+    const nameEl = document.getElementById('recipient-name');
+    const instansiEl = document.getElementById('recipient-instansi');
+    const kategoriEl = document.getElementById('recipient-kategori');
 
-    const submitBtn = rsvpForm.querySelector('button[type="submit"]');
-    submitBtn.textContent = "Mengirim...";
-    submitBtn.disabled = true;
+    if (nameEl) nameEl.textContent = data.to;
+    if (instansiEl) instansiEl.textContent = data.instansi;
+    if (kategoriEl) kategoriEl.textContent = data.kategori;
 
-    const formData = new URLSearchParams();
-    formData.append('nama', nama);
-    formData.append('instansi', instansi);
-    formData.append('status', status);
-    formData.append('pesan', pesan);
+    const modal = document.getElementById('rsvp-modal');
+    const btnOpen = document.getElementById('btn-open-rsvp');
+    const btnClose = document.getElementById('btn-close-rsvp');
+    const rsvpForm = document.getElementById('rsvp-form');
+    const rsvpSuccess = document.getElementById('rsvp-success');
+    const submitBtn = rsvpForm ? rsvpForm.querySelector('button[type="submit"]') : null;
 
-    // Menggunakan mode no-cors agar aman dari blokir browser
-    fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: formData
-    })
-        .then(() => {
-            // Karena mode no-cors response-nya opaque, kita langsung tampilkan sukses
-            feedbackBox.innerHTML = `Terima kasih, <strong>${nama}</strong>! Konfirmasi kehadiran Anda (<em>${status}</em>) telah berhasil tersimpan.`;
-            feedbackBox.classList.remove('hidden');
-            rsvpForm.reset();
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            feedbackBox.innerHTML = `Terjadi kendala jaringan, namun data Anda mungkin tetap terkirim.`;
-            feedbackBox.classList.remove('hidden');
-        })
-        .finally(() => {
-            submitBtn.textContent = "Kirim Konfirmasi";
-            submitBtn.disabled = false;
+    if (btnOpen) {
+        btnOpen.addEventListener('click', () => {
+            document.getElementById('rsvp-nama').value = data.to;
+            document.getElementById('rsvp-instansi').value = data.instansi;
+
+            rsvpForm.classList.remove('hidden');
+            rsvpSuccess.classList.add('hidden');
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
         });
+    }
+
+    if (btnClose) {
+        btnClose.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        });
+    }
+
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    });
+
+    if (rsvpForm) {
+        rsvpForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const nama = document.getElementById('rsvp-nama').value.trim();
+            const instansi = document.getElementById('rsvp-instansi').value.trim();
+            const status = document.getElementById('rsvp-status').value;
+            const pesan = document.getElementById('rsvp-pesan').value.trim();
+
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Mengirim...';
+            }
+
+            const payload = {
+                nama,
+                instansi,
+                kategori: data.kategori,
+                status,
+                pesan: pesan || null
+            };
+
+            const { error } = await supabaseClient
+                .from('rsvp')
+                .insert([payload]);
+
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Kirim Konfirmasi';
+            }
+
+            if (error) {
+                console.error('Supabase RSVP error:', error);
+                alert('Gagal menyimpan konfirmasi ke database. Periksa konfigurasi Supabase Anda.');
+                return;
+            }
+
+            localStorage.setItem('rsvp_edufair_2026', JSON.stringify({
+                ...payload,
+                waktu: new Date().toLocaleString('id-ID')
+            }));
+
+            rsvpForm.classList.add('hidden');
+            rsvpSuccess.classList.remove('hidden');
+
+            document.getElementById('rsvp-summary').textContent =
+                `Konfirmasi atas nama ${nama} (${instansi}) dengan status "${status}" telah berhasil tersimpan di database.`;
+        });
+    }
 });

@@ -1,217 +1,42 @@
-:root {
-    --primary: #2563eb;
-    --primary-dark: #1d4ed8;
-    --bg-color: #f1f5f9;
-    --card-bg: #ffffff;
-    --text-main: #1e293b;
-    --text-muted: #64748b;
-    --border-color: #e2e8f0;
-}
-
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    background-color: var(--bg-color);
-    color: var(--text-main);
-    line-height: 1.6;
-    padding: 16px;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #090d16 0%, #171033 50%, #290d36 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
 }
 
-.container {
-    max-width: 600px;
-    margin: 0 auto;
+.glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.card {
-    background: var(--card-bg);
-    border-radius: 12px;
-    padding: 24px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    border: 1px solid var(--border-color);
-}
-
-/* Header Card */
-.header-card {
-    text-align: center;
-    border-top: 6px solid var(--primary);
-}
-
-.badge {
-    display: inline-block;
-    background: #dbeafe;
-    color: var(--primary-dark);
-    padding: 4px 12px;
-    border-radius: 999px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    margin-bottom: 12px;
-}
-
-.subtitle {
-    font-size: 0.85rem;
-    letter-spacing: 2px;
-    color: var(--text-muted);
-    font-weight: bold;
-}
-
-h1 {
-    font-size: 1.6rem;
-    margin: 6px 0;
-    color: var(--text-main);
-}
-
-.theme {
-    font-style: italic;
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    margin-bottom: 20px;
-}
-
-.guest-box {
-    background: #f8fafc;
-    border: 1px dashed #cbd5e1;
-    border-radius: 8px;
-    padding: 16px;
-}
-
-.guest-box p {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-}
-
-.guest-box h2 {
-    font-size: 1.25rem;
-    color: var(--primary-dark);
-    margin: 4px 0;
-}
-
-.guest-box .institution {
-    font-weight: 600;
-    color: var(--text-main);
-}
-
-/* Detail & Maps */
-h3 {
-    font-size: 1.15rem;
-    margin-bottom: 14px;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 8px;
-}
-
-.info-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-    margin-bottom: 16px;
-}
-
-.info-item {
-    display: flex;
-    flex-direction: column;
-    font-size: 0.95rem;
-}
-
-.info-item strong {
-    color: var(--text-muted);
-    font-size: 0.85rem;
-}
-
-.map-container {
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid var(--border-color);
-}
-
-/* Form RSVP */
-.desc {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    margin-bottom: 16px;
-}
-
-.form-group {
-    margin-bottom: 14px;
-}
-
-.form-group label {
+.map-container iframe {
     display: block;
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 6px;
+    filter: contrast(1.05) brightness(0.92);
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    font-size: 0.95rem;
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
 }
 
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--primary);
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
 }
 
-.btn-primary {
-    width: 100%;
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
+::-webkit-scrollbar-thumb {
+    background: rgba(34, 211, 238, 0.4);
+    border-radius: 4px;
 }
 
-.btn-primary:hover {
-    background: var(--primary-dark);
-}
-
-.feedback {
-    margin-top: 16px;
-    padding: 12px;
-    border-radius: 8px;
-    background: #dcfce7;
-    color: #166534;
-    font-size: 0.9rem;
-    text-align: center;
-}
-
-.hidden {
-    display: none;
-}
-
-footer {
-    text-align: center;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-top: 10px;
-}
-
-/* Responsif untuk layar Tablet & Desktop */
-@media (min-width: 600px) {
-    body {
-        padding: 32px 16px;
-    }
-
-    h1 {
-        font-size: 1.9rem;
-    }
-
-    .info-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(34, 211, 238, 0.7);
 }

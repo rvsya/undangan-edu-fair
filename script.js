@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (error) {
-                alert('Gagal mengirim konfirmasi ke Supabase. Periksa tabel dan policy rsvp.');
+                alert('Gagal mengirim: ' + error.message);
                 return;
             }
 
